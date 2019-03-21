@@ -1,15 +1,26 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/';
+var url = 'mongodb://localhost:27017';
 var db;
 
-MongoClient.connect(url, function (err, database) {
+function sleep(ms){
+  return new Promise(resolve=>{
+	  setTimeout(resolve, ms)
+  })
+}
+
+function connectDB(){
+   async MongoClient.connect(url, function (err, database) {
    if (err) {
       console.error('MongoDB Connection Failed', err);
       return;
    }
 
-   db = database;
-});
+  db = database;
+  await sleep(2000);
+  });
+}
+
+setTimeout(function ()=>console.log('waiting...'), 3000);
 
 var users = db.Collection('users');
 
